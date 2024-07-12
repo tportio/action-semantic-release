@@ -25,7 +25,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v4
 
-  - uses: jadewon/semantic-release@v1
+  - uses: tportio/action-semantic-release@v1
     id: semantic
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +45,7 @@ steps:
   - name: Checkout
     uses: actions/checkout@v4
 
-  - uses: jadewon/semantic-release@v1
+  - uses: tportio/action-semantic-release@v1
     id: semantic
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
