@@ -32,6 +32,11 @@
 > - onda-bot 사용자를 `Collaborators and teams` 에 admin 으로 등록
 > - `Branch protection rules` 설정의 `Allow force pushes` -> `Specify who can force push` 에 등록
 
+**- @semantic-release/git 플러그인**
+
+기본적으로 `@semantic-release/git` 플러그인을 사용하기 때문에, protected branch 설정이 되어 있다면,
+`actions/checkout@v4` 설정의 `persist-credentials: false` 파라미터를 넣어줘야 한다.
+
 **- GITHUB_TOKEN**
 
 > `GITHUB_TOKEN` 환경변수명은 custom action으로 전달되지 않기 때문에, `GH_TOKEN` 으로 넘겨준다
@@ -47,6 +52,8 @@
 steps:
   - name: Checkout
     uses: actions/checkout@v4
+    with:
+      persist-credentials: false
 
   - uses: tportio/action-semantic-release@v1
     id: semantic
@@ -67,6 +74,8 @@ steps:
 steps:
   - name: Checkout
     uses: actions/checkout@v4
+    with:
+      persist-credentials: false
 
   - uses: tportio/action-semantic-release@v1
     id: semantic
