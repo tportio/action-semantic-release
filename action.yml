@@ -48,6 +48,9 @@ runs:
 
     - name: Run semantic-release
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ env.GH_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ env.GH_TOKEN }}
       run: |
         # Run semantic-release
         printenv
