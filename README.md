@@ -110,3 +110,4 @@ The following inputs can be used as `step.with` keys:
 |------------|--------|---------|
 | `version` | String | 버전 번호 (1.0.0) |
 | `tag` | String | prefix가 포함된 버전명 (v1.0.0) |
+| `prerelease` | Boolean | prerelease 여부 |
