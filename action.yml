@@ -35,6 +35,16 @@ runs:
           echo "GH_TOKEN=${{ env.GITHUB_TOKEN }}" >> $GITHUB_ENV
         fi
 
+    - name: Checking Last release version
+      shell: bash
+      run: |
+        # 최초 릴리즈라면 local tag에 v0.0.0 을 추가하여, v0.0.1 부터 사용되도록 설정
+        LAST_RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
+        if [[ -z $(gh release list -L 1 --exclude-drafts | cut -f 1) ]]; then
+          git tag v0.0.0
+          git push --tags
+        fi
+
     - name: Copy configuration files
       shell: bash
       run: |
