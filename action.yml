@@ -43,7 +43,6 @@ runs:
         if [[ -z $(gh release list -L 1 --exclude-drafts | cut -f 1) ]]; then
           git config --global user.name "$GITHUB_ACTOR"
           git tag v0.0.0
-          # git push --tags
         fi
 
     - name: Copy configuration files
