@@ -81,11 +81,7 @@ runs:
         [[ "$GITHUB_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false"
         [[ "$NODE_AUTH_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false"
 
-        if [[ "$GITHUB_TOKEN" =~ "8e53.*c1a57" ]]; then
-          npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
-        else
-          exit 1;
-        fi
+        GITHUB_TOKEN="$GITHUB_TOKEN" npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
 
     - name: Export version
       id: release
