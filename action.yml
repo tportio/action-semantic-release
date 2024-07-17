@@ -20,6 +20,21 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Checking tokens
+      shell: bash
+      run: |
+        # Checking tokens
+        if [[ -z $GITHUB_TOKEN ]]; then
+          echo "semantic-release requires GITHUB_TOKEN"
+          exit 1;
+        fi
+        if [[ -z $NODE_AUTH_TOKEN ]]; then
+          echo "NODE_AUTH_TOKEN=${{ env.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        fi
+        if [[ -z $GH_TOKEN ]]; then
+          echo "GH_TOKEN=${{ env.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        fi
+
     - name: Copy configuration files
       shell: bash
       run: |
@@ -48,14 +63,9 @@ runs:
 
     - name: Run semantic-release
       shell: bash
-      env:
-        # GITHUB_TOKEN: ${{ env.GH_TOKEN }}
-        NODE_AUTH_TOKEN: ${{ env.GH_TOKEN }}
       run: |
         # Run semantic-release
-        echo "GITHUB_TOKEN: $GITHUB_TOKEN - ${GITHUB_TOKEN:0:4} - ${GITHUB_TOKEN:35:40} - ${GITHUB_TOKEN:0:39}"
-        # npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
-        exit 1;
+        npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
 
     - name: Export version
       id: release

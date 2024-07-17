@@ -28,8 +28,8 @@
 > 이를 해결하기 위해서 아래 몇가지 방법 중 하나를 선택한다.
 >
 > 1. 버저닝을 Branch Protection 설정이 없는 브랜치(개발브랜치나 버저닝브랜치 등)에서 관리한다.
-> 2. oragnization level PAT(Personal access token)인 ONDABOT_TOKEN 을 사용하고 아래 중 하나를 설정한다.
-> - onda-bot 사용자를 `Collaborators and teams` 에 admin 으로 등록
+> 2. oragnization level PAT(Personal access token)인 `ONDABOT_TOKEN` 을 사용하고 아래 중 하나를 설정한다.
+> - `onda-bot` 사용자를 `Collaborators and teams` 에 admin 으로 등록
 > - `Branch protection rules` 설정의 `Allow force pushes` -> `Specify who can force push` 에 등록
 
 **- @semantic-release/git 플러그인**
@@ -39,10 +39,9 @@
 
 **- GITHUB_TOKEN**
 
-> `GITHUB_TOKEN` 환경변수명은 custom action으로 전달되지 않기 때문에, `GH_TOKEN` 으로 넘겨준다
-> `GH_TOKEN` 으로 넘겨진 토큰값은 semantic-release 실행시 아래 환경 변수가 함께 설정된다
-> - `GITHUB_TOKEN`
-> - `NODE_AUTH_TOKEN`
+> `GITHUB_TOKEN` 으로 넘겨진 토큰값은 semantic-release 실행시 아래 환경 변수가 별도로 설정되어 있는지 확인 후, 없다면 기본값으로 함께 사용된다.
+> - `GH_TOKEN` : gh cli 사용시 필요
+> - `NODE_AUTH_TOKEN`: `@semantic-release/npm` 플러그인 사용시 필요
 
 ## Usage
 
@@ -58,7 +57,7 @@ steps:
   - uses: tportio/action-semantic-release@v1
     id: semantic
     env:
-      GH_TOKEN: ${{ secrets.ONDABOT_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ONDABOT_TOKEN }}
 
   - name: version
     run: echo "${{ steps.localaction.outputs.version }}"
@@ -80,7 +79,7 @@ steps:
   - uses: tportio/action-semantic-release@v1
     id: semantic
     env:
-      GH_TOKEN: ${{ secrets.ONDABOT_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.ONDABOT_TOKEN }}
     with:
       prefix: submodule-
 
@@ -90,11 +89,6 @@ steps:
   - name: version tag
     run: echo "${{ steps.localaction.outputs.tag }}"
 ```
-
-
-## 주의사항
-자체적으로 github cli `gh` 를 사용해서 release를 하기 때문에,
-`GH_TOKEN` 환경변수를 꼭 설정해주세요.
 
 ## Customizing
 
