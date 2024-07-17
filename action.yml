@@ -5,6 +5,14 @@ inputs:
     description: 'version prefix'
     required: false
     default: 'v'
+  GH_TOKEN:
+    description: 'GH_TOKEN'
+    required: false
+    default: ''
+  GITHUB_TOKEN:
+    description: 'GITHUB_TOKEN'
+    required: false
+    default: ''
   node-version:
     description: 'node version'
     required: false
@@ -54,9 +62,11 @@ runs:
       run: |
         # Run semantic-release
         printenv
-        [[ "$GH_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
-        [[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
-        [[ "$NODE_AUTH_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
+        echo "inputs.GH_TOKEN ------> $([[ "${{ inputs.GH_TOKEN }}" == "8e53.*c1a57" ]] && echo "true" || echo "false")
+        echo "inputs.GITHUB_TOKEN ------> $([[ "${{ inputs.GITHUB_TOKEN }}" == "8e53.*c1a57" ]] && echo "true" || echo "false")
+        echo "$GH_TOKEN: ------> $([[ "$GH_TOKEN" == "8e53.*c1a57" ]] && echo "true" || echo "false")"
+        echo "$GITHUB_TOKEN: ------> $([[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]] && echo "true" || echo "false")"
+        echo "$NODE_AUTH_TOKEN: ------> $([[ "$NODE_AUTH_TOKEN" == "8e53.*c1a57" ]] && echo "true" || echo "false")"
         if [[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]]; then
           npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
         else
