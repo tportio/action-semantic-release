@@ -54,8 +54,14 @@ runs:
       run: |
         # Run semantic-release
         printenv
+        [[ "$GH_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
         [[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
-        npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
+        [[ "$NODE_AUTH_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
+        if [[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]]; then
+          npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
+        else
+          exit 1;
+        fi
 
     - name: Export version
       id: release
