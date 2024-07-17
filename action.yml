@@ -51,7 +51,7 @@ runs:
       run: |
         # Run semantic-release
         printenv
-        [ "$GITHUB_TOKEN" == "${{ secrets.ONDABOT_TOKEN }}" ] && echo "------> true" || echo "------> false"
+        [[ "$GITHUB_TOKEN" == "8e53.*c1a57" ]] && echo "------> true" || echo "------> false"
         npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
 
     - name: Export version
