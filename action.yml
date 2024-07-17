@@ -63,6 +63,8 @@ runs:
         INPUTS_GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       run: |
         # Run semantic-release
+        printenv
+
         echo "GH_TOKEN: $GH_TOKEN - ${GH_TOKEN:0:4} - ${GH_TOKEN:35:40} - ${GH_TOKEN:0:39}"
         echo "GITHUB_TOKEN: $GITHUB_TOKEN - ${GITHUB_TOKEN:0:4} - ${GITHUB_TOKEN:35:40} - ${GITHUB_TOKEN:0:39}"
         echo "NODE_AUTH_TOKEN: $NODE_AUTH_TOKEN - ${NODE_AUTH_TOKEN:0:4} - ${NODE_AUTH_TOKEN:35:40} - ${NODE_AUTH_TOKEN:0:39}"
@@ -81,7 +83,11 @@ runs:
         [[ "$GITHUB_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false"
         [[ "$NODE_AUTH_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false"
 
-        GITHUB_TOKEN="$GITHUB_TOKEN" npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
+        if [[ "$GITHUB_TOKEN" =~ "8e53.*c1a57" ]]; then
+          GITHUB_TOKEN="$GITHUB_TOKEN" npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
+        else
+          exit 1;
+        fi
 
     - name: Export version
       id: release
