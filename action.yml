@@ -63,15 +63,16 @@ runs:
         INPUTS_GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       run: |
         # Run semantic-release
-        echo "GH_TOKEN: $GH_TOKEN - ${GH_TOKEN:0:4}"
+        echo "GH_TOKEN: $GH_TOKEN - ${GH_TOKEN:0:4} - ${GH_TOKEN:35:40} - ${GH_TOKEN:0:39}"
+        echo "GITHUB_TOKEN: $GITHUB_TOKEN - ${GITHUB_TOKEN:0:4} - ${GITHUB_TOKEN:35:40} - ${GITHUB_TOKEN:0:39}"
+        echo "NODE_AUTH_TOKEN: $NODE_AUTH_TOKEN - ${NODE_AUTH_TOKEN:0:4} - ${NODE_AUTH_TOKEN:35:40} - ${NODE_AUTH_TOKEN:0:39}"
+        echo "INPUTS_GH_TOKEN: $INPUTS_GH_TOKEN - ${INPUTS_GH_TOKEN:0:4} - ${INPUTS_GH_TOKEN:35:40} - ${INPUTS_GH_TOKEN:0:39}"
+        echo "INPUTS_GITHUB_TOKEN: $INPUTS_GITHUB_TOKEN - ${INPUTS_GITHUB_TOKEN:0:4} - ${INPUTS_GITHUB_TOKEN:35:40} - ${INPUTS_GITHUB_TOKEN:0:39}"
+
         echo -n "$GH_TOKEN" | sha1sum
-        echo "GITHUB_TOKEN: $GITHUB_TOKEN - ${GITHUB_TOKEN:0:4} - ${GITHUB_TOKEN:35:40} - ${GITHUB_TOKEN:0:40}"
         echo -n "$GITHUB_TOKEN" | sha1sum
-        echo "NODE_AUTH_TOKEN: $NODE_AUTH_TOKEN - ${NODE_AUTH_TOKEN:0:4} - ${NODE_AUTH_TOKEN:35:40} - ${NODE_AUTH_TOKEN:0:40}"
         echo -n "$NODE_AUTH_TOKEN" | sha1sum
-        echo "INPUTS_GH_TOKEN: $INPUTS_GH_TOKEN - ${INPUTS_GH_TOKEN:0:4} - ${INPUTS_GH_TOKEN:35:40} - ${INPUTS_GH_TOKEN:0:40}"
         echo -n "$INPUTS_GH_TOKEN" | sha1sum
-        echo "INPUTS_GITHUB_TOKEN: $INPUTS_GITHUB_TOKEN - ${INPUTS_GITHUB_TOKEN:0:4} - ${INPUTS_GITHUB_TOKEN:35:40} - ${INPUTS_GITHUB_TOKEN:0:40}"
         echo -n "$INPUTS_GITHUB_TOKEN" | sha1sum
 
         [[ "$INPUTS_GH_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false"
