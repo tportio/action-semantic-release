@@ -45,20 +45,13 @@ runs:
       run: |
         # Install semantic-release package
         npm install --save-dev semantic-release $( jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc | xargs echo)
-        # npm install --save-dev \
-        #   semantic-release \
-        #   @semantic-release/commit-analyzer \
-        #   @semantic-release/changelog \
-        #   @semantic-release/release-notes-generator \
-        #   @semantic-release/git \
-        #   @semantic-release/github \
-        #   @semantic-release/exec
-        # jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc
 
     - name: Run semantic-release
       shell: bash
       run: |
         # Run semantic-release
+        printenv
+        [ "$GITHUB_TOKEN" == "${{ secrets.ONDABOT_TOKEN }}" ] && echo "------> true" || echo "------> false"
         npx semantic-release --tag-format '${{ inputs.prefix }}${version}'
 
     - name: Export version
