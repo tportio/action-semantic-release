@@ -42,9 +42,7 @@ runs:
         # 최초 릴리즈라면 local tag에 v0.0.0 을 추가하여, v0.0.1 부터 사용되도록 설정
         LAST_RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
         if [[ -z $(gh release list -L 1 --exclude-drafts | cut -f 1) ]]; then
-          echo "GIT_AUTHOR_NAME: $GIT_AUTHOR_NAME"
-          echo "GIT_AUTHOR_EMAIL: $GIT_AUTHOR_EMAIL"
-          git config --global user.name "$GIT_AUTHOR_NAME"
+          git config --global user.name "$GITHUB_ACTOR"
           git tag v0.0.0
           git push --tags
         fi
