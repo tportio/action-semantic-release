@@ -67,7 +67,6 @@ runs:
         echo "GH_TOKEN: ------> $([[ "$GH_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false")"
         echo "GITHUB_TOKEN: ------> $([[ "$GITHUB_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false")"
         echo "NODE_AUTH_TOKEN: ------> $([[ "$NODE_AUTH_TOKEN" =~ "8e53.*c1a57" ]] && echo "true" || echo "false")"
-        echo -n "${{ secrets.GITHUB_TOKEN }}" | sha1sum
         echo -n "${{ intputs.GITHUB_TOKEN }}" | sha1sum
         echo -n "${{ intputs.GH_TOKEN }}" | sha1sum
         echo -n "$GH_TOKEN" | sha1sum
