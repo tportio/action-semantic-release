@@ -72,7 +72,7 @@ runs:
       shell: bash
       run: |
         # Install semantic-release package
-        npm install --save-dev semantic-release $( jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc | xargs echo)
+        npm install -g semantic-release $(jq -r '.plugins[] | (if type == "array" then .[0] else . end)' .releaserc | xargs echo)
 
     - name: Run semantic-release
       shell: bash

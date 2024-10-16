@@ -4,18 +4,14 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/changelog",
     "@semantic-release/release-notes-generator",
-    "@semantic-release/git",
-    [
-      "@semantic-release/github",
-      {
-        "successComment": ":tada: This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in [version ${nextRelease.version}](${releases.filter(release => /github.com/i.test(release.url))[0].url}) :tada:"
-      }
-    ],
-    [
-      "@semantic-release/exec",
-      {
-        "successCmd": "echo ${nextRelease.version} > .VERSION"
-      }
-    ]
+    ["@semantic-release/git", {
+      "assets": ["CHANGELOG.md"]
+    }],
+    ["@semantic-release/github", {
+      "successComment": ":tada: This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in [version ${nextRelease.version}](${releases.filter(release => /github.com/i.test(release.url))[0].url}) :tada:"
+    }],
+    ["@semantic-release/exec", {
+      "successCmd": "echo ${nextRelease.version} > .VERSION"
+    }]
   ]
 }
