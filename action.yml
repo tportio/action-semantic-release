@@ -125,8 +125,10 @@ runs:
             echo "프리릴리즈라면 EXTRA를 증가시킴"
             RELEASE_VERSION=$(echo "$RELEASE_VERSION.$(($EXTRA + 1))")
             # 새 버전 문자열 생성
-            echo "새 버전 문자열 생성"
+            echo "새 버전 문자열 생성 ${PREFIX}${RELEASE_VERSION}"
             RELEASE_VERSION_TAG=$(echo "${PREFIX}${RELEASE_VERSION}")
+            echo "RELEASE_VERSION: $RELEASE_VERSION"
+            echo "RELEASE_VERSION_TAG: $RELEASE_VERSION_TAG"
             gh release create ${RELEASE_VERSION_TAG} --prerelease -t ${RELEASE_VERSION_TAG}
           else
             # 새 버전 문자열 생성
