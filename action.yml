@@ -91,21 +91,28 @@ runs:
         if [[ ! -f .VERSION ]]; then
           echo "Semantic Release 실행 안됨. 수동으로 생성"
           # 마지막 릴리즈 버전을 가져옴
+          echo "마지막 릴리즈 버전을 가져옴"
           RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
           # extra 버전 번호 초기화
+          echo "extra 버전 번호 초기화"
           EXTRA=0
           # 프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기존적으로 프리릴리즈로 생성
+          echo "프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기존적으로 프리릴리즈로 생성"
           IS_PRERELEASE=true
 
           # 버전이 없을 경우 0.0.1 로 설정 - 최초 릴리즈라면 정식릴리즈로 생성
           if [[ -z $RELEASE_VERSION ]]; then
+            echo "버전이 없을 경우 0.0.1 로 설정 - 최초 릴리즈라면 정식릴리즈로 생성"
             RELEASE_VERSION='0.0.1'
             IS_PRERELEASE=false
           # 가져온 버전의 패턴 확인
           elif [[ "$RELEASE_VERSION" =~ [0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "가져온 버전의 패턴 확인"
             # 버전 숫자 앞에 붙은 prefix를 제거하고 숫자만 추출 (v1.1.0 -> 1.1.0)
+            echo "버전 숫자 앞에 붙은 prefix를 제거하고 숫자만 추출 (v1.1.0 -> 1.1.0)"
             RELEASE_VERSION=$(echo $RELEASE_VERSION | awk '{ gsub(/[^0-9]+/,"."); print }' | cut -c2-)
             # extra 버전 번호까지 있다면 extra를 분리
+            echo "extra 버전 번호까지 있다면 extra를 분리"
             if [[ "$RELEASE_VERSION" =~ [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               EXTRA=$(echo "$RELEASE_VERSION" | cut -f4- -d'.')
               RELEASE_VERSION=$(echo "$RELEASE_VERSION" | cut -f1-3 -d'.')
@@ -115,12 +122,15 @@ runs:
           # release
           if [[ $IS_PRERELEASE == true ]]; then
             # 프리릴리즈라면 EXTRA를 증가시킴
+            echo "프리릴리즈라면 EXTRA를 증가시킴"
             RELEASE_VERSION=$(echo "$RELEASE_VERSION.$(($EXTRA + 1))")
             # 새 버전 문자열 생성
+            echo "새 버전 문자열 생성"
             RELEASE_VERSION_TAG=$(echo "${PREFIX}${RELEASE_VERSION}")
             gh release create ${RELEASE_VERSION_TAG} --prerelease -t ${RELEASE_VERSION_TAG}
           else
             # 새 버전 문자열 생성
+            echo "새 버전 문자열 생성"
             RELEASE_VERSION_TAG=$(echo "${PREFIX}${RELEASE_VERSION}")
             gh release create ${RELEASE_VERSION_TAG} -t ${RELEASE_VERSION_TAG}
           fi
