@@ -92,7 +92,7 @@ runs:
           echo "Semantic Release 실행 안됨. 수동으로 생성"
           # 마지막 릴리즈 버전을 가져옴
           echo "마지막 릴리즈 버전을 가져옴"
-          RELEASE_VERSION=$(gh release list -L 1 --exclude-drafts | cut -f 1)
+          RELEASE_VERSION=$(gh release list -L 10 --exclude-drafts --json tagName,name,createdAt,publishedAt,isLatest --jq 'sort_by(.publishedAt) | reverse | .[0].tagName')
           # extra 버전 번호 초기화
           echo "extra 버전 번호 초기화"
           EXTRA=0
