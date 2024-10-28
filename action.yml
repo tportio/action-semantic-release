@@ -85,6 +85,7 @@ runs:
       shell: bash
       env:
         PREFIX: ${{ inputs.prefix }}
+      if: always()
       run: |
         # Export version
         # semantic-release 에서 버전 생성이 안되었을 경우 수동으로 생성
