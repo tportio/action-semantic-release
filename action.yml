@@ -9,6 +9,10 @@ inputs:
     description: 'node version'
     required: false
     default: 20
+  release-config-file:
+    description: 'semantic-release configuration file'
+    required: false
+    default: '.releaserc'
 outputs:
   version:
     description: 'Release version'
@@ -38,6 +42,11 @@ runs:
           echo "GH_TOKEN=${{ env.GITHUB_TOKEN }}" >> $GITHUB_ENV
         fi
 
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+    
     - name: Checking Last release version
       shell: bash
       run: |
@@ -52,7 +61,11 @@ runs:
       shell: bash
       run: |
         # Copy configuration files
-        if [[ -f ./.releaserc ]]; then
+        if [[ -f ${{ inputs.release-config-file }} ]]; then
+          if [[ "${{ inputs.release-config-file }}" != ".releaserc" ]]; then
+            # js 파일이면 실행하여 .releaserc 파일로 저장
+            node -e 'import("./${{ inputs.release-config-file }}").then(JSON.stringify).then(console.log)' > .releaserc
+          fi
           # 기존에 사용하던 @semantic-release/exec 의 아래 명령어가 동작안함
           # echo \"RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV
           # 따라서 .VERSION 파일로 저장해서 파일 존재 여부와 버전 문자열을 확인
@@ -62,11 +75,6 @@ runs:
         else
           cp $GITHUB_ACTION_PATH/.releaserc .
         fi
-
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ inputs.node-version }}
 
     - name: Install semantic-release package
       shell: bash
@@ -97,8 +105,8 @@ runs:
           # extra 버전 번호 초기화
           echo "extra 버전 번호 초기화"
           EXTRA=0
-          # 프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기존적으로 프리릴리즈로 생성
-          echo "프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기존적으로 프리릴리즈로 생성"
+          # 프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기본적으로 프리릴리즈로 생성
+          echo "프리릴리즈 여부 - semantic-release 에서 생성이 안되면 기본적으로 프리릴리즈로 생성"
           IS_PRERELEASE=true
 
           # 버전이 없을 경우 0.0.1 로 설정 - 최초 릴리즈라면 정식릴리즈로 생성

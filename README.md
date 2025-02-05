@@ -90,10 +90,35 @@ steps:
     run: echo "${{ steps.localaction.outputs.tag }}"
 ```
 
+**Custom Release Config:**
+
+```yaml
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
+    with:
+      persist-credentials: false
+
+  - uses: tportio/action-semantic-release@v1
+    id: semantic
+    env:
+      GITHUB_TOKEN: ${{ secrets.ONDABOT_TOKEN }}
+    with:
+      release-config-file: .releaserc.mjs
+
+  - name: version
+    run: echo "${{ steps.localaction.outputs.version }}"
+
+  - name: version tag
+    run: echo "${{ steps.localaction.outputs.tag }}"
+```
+
 ## Customizing
 
 ### .releaserc
 project root에 `.releaserc` 파일이 존재하면 해당 파일을 사용합니다.
+`.releaserc.(m|c)js`를 사용하는 경우, `inputs.release-config-file`에 파일명을 넣어줍니다.
+모든 값이 미정의되어 있는 경우 기본 [.releaserc](https://github.com/tportio/action-semantic-release/blob/main/.releaserc) 파일이 적용됩니다.
 
 ### inputs
 
@@ -103,6 +128,7 @@ The following inputs can be used as `step.with` keys:
 |------------|--------|---------|-------------------------------------------------------------------------------|
 | `prefix` | String | v        | 버전 번호 앞에 붙이는 문자열 |
 | `node-version` | String | 20        | semantic-release 를 실행할 node 버전 |
+| `release-config-file` | String | .releaserc | semantic-release 의 설정 파일 |
 
 ### outputs
 
