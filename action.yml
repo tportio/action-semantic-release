@@ -8,7 +8,7 @@ inputs:
   node-version:
     description: 'node version'
     required: false
-    default: 20
+    default: 22
   release-config-file:
     description: 'semantic-release configuration file'
     required: false
