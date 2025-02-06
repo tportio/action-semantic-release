@@ -64,7 +64,7 @@ runs:
         if [[ -f ${{ inputs.release-config-file }} ]]; then
           if [[ "${{ inputs.release-config-file }}" != ".releaserc" ]]; then
             # js 파일이면 실행하여 .releaserc 파일로 저장
-            node -e 'import("./${{ inputs.release-config-file }}").then(JSON.stringify).then(console.log)' > .releaserc
+            node -e 'import("./${{ inputs.release-config-file }}").then((d) => JSON.stringify({ ...d }.default)).then(console.log)' > .releaserc
           fi
           # 기존에 사용하던 @semantic-release/exec 의 아래 명령어가 동작안함
           # echo \"RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV
